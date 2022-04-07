@@ -2,12 +2,13 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { default as auth0_domain, default as auth0_clientId } from '../../env.json';
+import { default as auth0Env} from '../../env.json';
+
 export const environment = {
   production: false,
   auth: {
-    auth0_domain,
-    auth0_clientId,
+    domain: auth0Env.domain,
+    clientId: auth0Env.clientId,
     redirectUri: window.location.origin,
   },
 };
