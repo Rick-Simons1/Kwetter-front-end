@@ -6,18 +6,24 @@ import { AppComponent } from './app.component';
 import { AuthModule } from '@auth0/auth0-angular';
 import { environment as env } from '../environments/environment';
 import { LoginPageComponent } from './login-page/login-page.component';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    ProfilePageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AuthModule.forRoot({
       ...env.auth,
-    })
+    }),
+    BrowserAnimationsModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
