@@ -1,3 +1,7 @@
+<button (click)="logoutWithRedirect()">
+    Log out
+</button>
+
 <mat-card *ngIf="this.auth.user$ | async as user">
     <mat-card-header>
         <div mat-card-avatar style="background-image: url({{user.picture}});"></div>
@@ -24,4 +28,26 @@
     <mat-card-actions>
         <button mat-button>Edit profile</button>
     </mat-card-actions>
+</mat-card>
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Kweet</mat-card-title>
+        <mat-card-subtitle>post you kweet!</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <input #message_field type="text" value="" />
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button (click)="this.postMessage(message_field.value)">Send</button>
+    </mat-card-actions>
+</mat-card>
+
+<mat-card *ngFor="let message of messages">
+    <mat-card-header>
+        <mat-card-title>ricksimons</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        {{message.messageContent}}
+    </mat-card-content>
 </mat-card>
