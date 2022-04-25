@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators'
+import { Kwetteruser } from '../entities/kwetteruser';
 import { Message } from '../entities/message';
 
 @Injectable({
@@ -25,5 +26,13 @@ export class ProfileService {
 
   findAllMessages(){
     return this.http.get<Message[]>("http://localhost:4000/message/");
+  }
+
+  updateUserProfileData(kwetterUser : Kwetteruser){
+    return this.http.put("http://localhost:4000/user/", kwetterUser);
+  }
+
+  findUserProfile(id: string){
+    return this.http.get<Kwetteruser>("http://localhost:4000/user/" + id);
   }
 }

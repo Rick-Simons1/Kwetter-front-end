@@ -1,5 +1,9 @@
 export interface Kwetteruser {
-    id: number;
+    id: number
     username: string;
-    email: string;
+    hashtag: string;
+    discription: string;
+    authId: string;
+    role: string;
+    created_at: Date;
 }

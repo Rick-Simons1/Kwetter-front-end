@@ -1,53 +1,73 @@
-<button (click)="logoutWithRedirect()">
-    Log out
-</button>
+<mat-grid-list cols="3" rowHeight="1:2">
+    <mat-grid-tile>
+        <div class="mat-grid-tile-content-custom">
+            <mat-card *ngIf="this.auth.user$ | async as user">
+                <mat-card-header>
+                    <div mat-card-avatar style="background-image: url({{user.picture}});"></div>
+                    <mat-card-title>{{this.kwetterUser?.username}}</mat-card-title>
+                    <mat-card-subtitle>{{this.kwetterUser?.hashtag}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    {{this.kwetterUser?.discription}}
+                    <br>
+                    created at: {{this.kwetterUser?.created_at}}
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button (click)="setShowProfileForm()">Edit profile</button>
+                </mat-card-actions>
+            </mat-card>
+            <mat-card *ngIf="this.showProfileForm">
+                <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                    <mat-form-field appearance="standard">
+                        <mat-label>username</mat-label>
+                        <input matInput id="username" formControlName="username">
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field appearance="standard">
+                        <mat-label>hashtag</mat-label>
+                        <input matInput id="hashtag" formControlName="hashtag">
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field appearance="fill">
+                        <mat-label>discription</mat-label>
+                        <textarea matInput id="discription" formControlName="discription"></textarea>
+                    </mat-form-field>
+                    <br>
+                    <button class="button" type="submit">save</button>
+                </form>
+            </mat-card>
+        </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <div class="mat-grid-tile-content-custom">
+            <mat-card *ngFor="let message of messages">
+                <mat-card-header>
+                    <mat-card-title>ricksimons</mat-card-title>
+                    <mat-card-subtitle>@ricksimons</mat-card-subtitle>
 
-<mat-card *ngIf="this.auth.user$ | async as user">
-    <mat-card-header>
-        <div mat-card-avatar style="background-image: url({{user.picture}});"></div>
-        <mat-card-title>{{user.name}}</mat-card-title>
-        <mat-card-subtitle>{{user.email}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras posuere justo malesuada nulla mollis
-            consequat. Morbi finibus libero purus, a maximus tortor luctus sed. Vestibulum quis nibh eget eros cursus
-            vestibulum sit amet et sem. Vestibulum blandit massa eu efficitur congue. In quam erat, ultricies at
-            dignissim non, lacinia quis neque. In nec felis eget leo consectetur vestibulum. Proin porta egestas tempus.
-            Vestibulum sit amet mauris sit amet neque facilisis placerat. Cras tempor arcu et tincidunt iaculis.
+                </mat-card-header>
+                <mat-card-content>
+                    {{message.messageContent}}
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <div class="mat-grid-tile-content-custom">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Kweet</mat-card-title>
+                    <mat-card-subtitle>post you kweet!</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <input #message_field type="text" value="" />
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button (click)="this.postMessage(message_field.value)">Send</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
 
-            Cras massa elit, pellentesque vitae nunc tristique, malesuada viverra augue. Morbi luctus odio eget semper
-            blandit. Phasellus magna magna, ullamcorper quis felis eget, facilisis imperdiet felis. Vestibulum blandit
-            vulputate est, non blandit dui maximus at. Aliquam tempor lacinia lectus vel vulputate. Morbi volutpat eros
-            sit amet urna pulvinar porttitor. Fusce ac facilisis purus, quis vehicula felis. Pellentesque auctor odio ac
-            auctor ornare. Praesent lacinia eu erat vel luctus. Cras tellus metus, rhoncus id dolor vitae, blandit
-            dapibus lectus. Donec hendrerit lectus id finibus rhoncus. Nam a quam eu dui tempor efficitur sit amet non
-            odio. Proin id eleifend nunc, vitae tincidunt ipsum. Ut nec elit odio.
-        </p>
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-button>Edit profile</button>
-    </mat-card-actions>
-</mat-card>
+    </mat-grid-tile>
 
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>Kweet</mat-card-title>
-        <mat-card-subtitle>post you kweet!</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-        <input #message_field type="text" value="" />
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-button (click)="this.postMessage(message_field.value)">Send</button>
-    </mat-card-actions>
-</mat-card>
-
-<mat-card *ngFor="let message of messages">
-    <mat-card-header>
-        <mat-card-title>ricksimons</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        {{message.messageContent}}
-    </mat-card-content>
-</mat-card>
+</mat-grid-list>
