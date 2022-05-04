@@ -21,13 +21,19 @@ export class ProfilePageComponent implements OnInit {
 
   constructor(public auth: AuthService, private profileService: ProfileService, private formbuilder: FormBuilder) {
     this.auth.user$.subscribe((user) => {
-      //this.user = user;
       if(user?.sub != undefined){
-        this.profileService.findUserProfile(user.sub.slice(6)).subscribe((kwetteruser) => {
-          this.kwetterUser = kwetteruser;
-        })
+       this.profileService.findUserProfile(user.sub.slice(6))
+       .subscribe({
+         next: (kwetteruser) => 
+          {this.kwetterUser = kwetteruser;}, 
+         error: (error) => 
+          {
+            if(error.error.statusCode){
+          }
+        }
       }
-      
+        
+      )}
     })
   }
 
