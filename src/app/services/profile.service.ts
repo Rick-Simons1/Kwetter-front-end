@@ -32,6 +32,10 @@ export class ProfileService {
     return this.http.put("http://localhost:4000/user/", kwetterUser);
   }
 
+  createUserProfile(kwetterUser : Kwetteruser){
+    return this.http.post<Kwetteruser>("http://localhost:4000/user/", kwetterUser);
+  }
+
   findUserProfile(id: string){
     return this.http.get<Kwetteruser>("http://localhost:4000/user/" + id);
   }

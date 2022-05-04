@@ -16,7 +16,8 @@ import {MatIconModule} from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms'  
-import { ReactiveFormsModule} from '@angular/forms' 
+import { ReactiveFormsModule} from '@angular/forms';
+import { ProfileRegisterPageComponent } from './profile-register-page/profile-register-page.component' 
 
 
 
@@ -24,7 +25,8 @@ import { ReactiveFormsModule} from '@angular/forms'
   declarations: [
     AppComponent,
     LoginPageComponent,
-    ProfilePageComponent
+    ProfilePageComponent,
+    ProfileRegisterPageComponent
   ],
   imports: [
     BrowserModule,

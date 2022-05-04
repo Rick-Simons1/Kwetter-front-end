@@ -5,5 +5,4 @@ export interface Kwetteruser {
     discription: string;
     authId: string;
     role: string;
-    created_at: Date;
 }
