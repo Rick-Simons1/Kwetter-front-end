@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
@@ -9,17 +10,21 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 export class LoginPageComponent implements OnInit {
 
-  constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService) {
+  constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService,private router : Router) {
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.auth.isAuthenticated$.subscribe((result) => {
+      if(result){
+        this.router.navigateByUrl('/profile');
+      }
+    })
+  }
 
   loginWithRedirect(): void {
     this.auth.loginWithRedirect();
   }
 
-  logoutWithRedirect(): void {
-    this.auth.logout({ returnTo: "http://localhost:4200/login" })
-  }
+  
 
 }
