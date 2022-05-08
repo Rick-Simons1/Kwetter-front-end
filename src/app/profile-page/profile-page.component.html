@@ -11,6 +11,14 @@
                     {{this.kwetterUser?.discription}}
                 </mat-card-content>
                 <mat-card-actions>
+                    <button mat-raised-button color="primary" matBadge="{{this.kwetterUser?.following?.length}}" matBadgePosition="before"
+                        matBadgeColor="accent" (click)="setShowFollowing()">
+                        Following
+                    </button>
+                    <button mat-raised-button color="primary" matBadge="{{this.kwetterUser?.followers?.length}}" matBadgePosition="before"
+                        matBadgeColor="accent" (click)="setShowFollowers()">
+                        Followers
+                    </button>
                     <button mat-button (click)="setShowProfileForm()">Edit profile</button>
                 </mat-card-actions>
             </mat-card>
@@ -33,6 +41,28 @@
                     <br>
                     <button class="button" type="submit">save</button>
                 </form>
+            </mat-card>
+            <mat-card *ngIf="this.showFollowing">
+                <mat-card-content>Following:</mat-card-content>
+                <mat-list>
+                    <mat-list-item *ngFor="let kwetterUser of this.following">
+                      <h3 matLine (click)="this.router.navigateByUrl('/user/' + kwetterUser.hashtag)"> {{kwetterUser.hashtag}} </h3>
+                      <p matLine>
+                        <span> {{kwetterUser.username}} </span>
+                      </p>
+                    </mat-list-item>
+                </mat-list>
+            </mat-card>
+            <mat-card *ngIf="this.showFollowers">
+                <mat-card-content>Followers:</mat-card-content>
+                <mat-list>
+                    <mat-list-item *ngFor="let kwetterUser of this.followers">
+                      <h3 matLine (click)="this.router.navigateByUrl('/user/' + kwetterUser.hashtag)"> {{kwetterUser.hashtag}} </h3>
+                      <p matLine>
+                        <span> {{kwetterUser.username}} </span>
+                      </p>
+                    </mat-list-item>
+                </mat-list>
             </mat-card>
         </div>
     </mat-grid-tile>

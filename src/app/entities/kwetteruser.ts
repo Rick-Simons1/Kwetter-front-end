@@ -5,4 +5,6 @@ export interface Kwetteruser {
     discription: string;
     authId: string;
     role: string;
+    following: string[];
+    followers: string[];
 }

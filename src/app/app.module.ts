@@ -17,7 +17,11 @@ import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms'  
 import { ReactiveFormsModule} from '@angular/forms';
-import { ProfileRegisterPageComponent } from './profile-register-page/profile-register-page.component' 
+import { ProfileRegisterPageComponent } from './profile-register-page/profile-register-page.component';
+import { UserPageComponent } from './user-page/user-page.component' 
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatButtonModule} from '@angular/material/button';
+import {MatListModule} from '@angular/material/list';
 
 
 
@@ -26,7 +30,8 @@ import { ProfileRegisterPageComponent } from './profile-register-page/profile-re
     AppComponent,
     LoginPageComponent,
     ProfilePageComponent,
-    ProfileRegisterPageComponent
+    ProfileRegisterPageComponent,
+    UserPageComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +46,9 @@ import { ProfileRegisterPageComponent } from './profile-register-page/profile-re
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
+    MatBadgeModule,
+    MatButtonModule,
+    MatListModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule

@@ -18,9 +18,13 @@ export class ProfilePageComponent implements OnInit {
   kwetterUser: Kwetteruser | undefined;
   messages: Message[] = [];
   showProfileForm: boolean = false;
+  showFollowing: boolean = false;
+  showFollowers:boolean = false;
+  followers: Kwetteruser[] = [];
+  following: Kwetteruser[] = [];
 
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private formbuilder: FormBuilder, private router : Router) {
+  constructor(public auth: AuthService, private profileService: ProfileService, private formbuilder: FormBuilder, public router : Router) {
     this.auth.user$.subscribe((user) => {
       if (user?.sub != undefined) {
         this.profileService.findUserProfile(user.sub.slice(6))
@@ -33,7 +37,13 @@ export class ProfilePageComponent implements OnInit {
               }
             }
           }
-          )
+        )
+        this.profileService.findAllFollowingById(user.sub.slice(6)).subscribe((followingArray) => {
+          this.following = followingArray;
+        })
+        this.profileService.findAllFollowersById(user.sub.slice(6)).subscribe((followersArray) => {
+          this.followers = followersArray;
+        })
       }
     })
   }
@@ -53,7 +63,7 @@ export class ProfilePageComponent implements OnInit {
       this.kwetterUser.username = this.profileForm.value.username;
       this.kwetterUser.hashtag = this.profileForm.value.hashtag;
       this.kwetterUser.discription = this.profileForm.value.discription;
-      this.profileService.updateUserProfileData(this.kwetterUser).subscribe();
+      this.profileService.updateUser(this.kwetterUser).subscribe();
     }
 
 
@@ -76,6 +86,22 @@ export class ProfilePageComponent implements OnInit {
       this.showProfileForm = true;
     } else {
       this.showProfileForm = false;
+    }
+  }
+
+  setShowFollowing(): void {
+    if (this.showFollowing === false) {
+      this.showFollowing = true;
+    } else {
+      this.showFollowing = false;
+    }
+  }
+
+  setShowFollowers(): void {
+    if (this.showFollowers === false) {
+      this.showFollowers = true;
+    } else {
+      this.showFollowers = false;
     }
   }
 

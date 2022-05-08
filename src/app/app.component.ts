@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
@@ -9,7 +10,7 @@ import { AuthService } from '@auth0/auth0-angular';
 export class AppComponent {
   title = 'Kwetter-front-end';
 
-  constructor(public auth: AuthService) {
+  constructor(public auth: AuthService, private router : Router) {
   }
 
   loginWithRedirect(): void {
@@ -18,5 +19,9 @@ export class AppComponent {
   
   logoutWithRedirect(): void {
     this.auth.logout()
+  }
+
+  redirectToProfile(): void{
+    this.router.navigateByUrl('/profile');
   }
 }
