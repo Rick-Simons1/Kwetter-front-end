@@ -1,0 +1,24 @@
+<div>
+    <mat-card>
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+            First Time Registration Form
+            <br>
+            <mat-form-field appearance="standard">
+                <mat-label>username</mat-label>
+                <input matInput id="username" formControlName="username">
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="standard">
+                <mat-label>hashtag</mat-label>
+                <input matInput id="hashtag" formControlName="hashtag">
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="fill">
+                <mat-label>discription</mat-label>
+                <textarea matInput id="discription" formControlName="discription"></textarea>
+            </mat-form-field>
+            <br>
+            <button class="button" type="submit">save</button>
+        </form>
+    </mat-card>
+</div>

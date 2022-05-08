@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService, User } from '@auth0/auth0-angular';
 import { Kwetteruser } from '../entities/kwetteruser';
 import { Message } from '../entities/message';
@@ -17,17 +18,33 @@ export class ProfilePageComponent implements OnInit {
   kwetterUser: Kwetteruser | undefined;
   messages: Message[] = [];
   showProfileForm: boolean = false;
-  
+  showFollowing: boolean = false;
+  showFollowers:boolean = false;
+  followers: Kwetteruser[] = [];
+  following: Kwetteruser[] = [];
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private formbuilder: FormBuilder) {
+
+  constructor(public auth: AuthService, private profileService: ProfileService, private formbuilder: FormBuilder, public router : Router) {
     this.auth.user$.subscribe((user) => {
-      //this.user = user;
-      if(user?.sub != undefined){
-        this.profileService.findUserProfile(user.sub.slice(6)).subscribe((kwetteruser) => {
-          this.kwetterUser = kwetteruser;
+      if (user?.sub != undefined) {
+        this.profileService.findUserProfile(user.sub.slice(6))
+          .subscribe({
+            next: (kwetteruser) => { this.kwetterUser = kwetteruser; },
+            error: (error) => {
+              //todo: change error code to proper error code after adding error handling in the back-end
+              if (error.error.statusCode === 500) {
+                this.router.navigateByUrl('/register');
+              }
+            }
+          }
+        )
+        this.profileService.findAllFollowingById(user.sub.slice(6)).subscribe((followingArray) => {
+          this.following = followingArray;
+        })
+        this.profileService.findAllFollowersById(user.sub.slice(6)).subscribe((followersArray) => {
+          this.followers = followersArray;
         })
       }
-      
     })
   }
 
@@ -42,20 +59,20 @@ export class ProfilePageComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if(this.kwetterUser != undefined){
+    if (this.kwetterUser != undefined) {
       this.kwetterUser.username = this.profileForm.value.username;
       this.kwetterUser.hashtag = this.profileForm.value.hashtag;
       this.kwetterUser.discription = this.profileForm.value.discription;
-      this.profileService.updateUserProfileData(this.kwetterUser).subscribe();
+      this.profileService.updateUser(this.kwetterUser).subscribe();
     }
-    
+
 
   }
 
 
-  postMessage(messageContent: string){
-    if(this.kwetterUser != undefined){
-      const message: Message = {messageContent: messageContent, user: this.kwetterUser}
+  postMessage(messageContent: string) {
+    if (this.kwetterUser != undefined) {
+      const message: Message = { messageContent: messageContent, user: this.kwetterUser }
       console.log(message);
       this.profileService.postMessage(message).subscribe((message) => {
         console.log(message);
@@ -65,14 +82,30 @@ export class ProfilePageComponent implements OnInit {
   }
 
   setShowProfileForm(): void {
-    if(this.showProfileForm === false){
+    if (this.showProfileForm === false) {
       this.showProfileForm = true;
-    }else{
+    } else {
       this.showProfileForm = false;
     }
   }
 
-  findAllMessages(){
+  setShowFollowing(): void {
+    if (this.showFollowing === false) {
+      this.showFollowing = true;
+    } else {
+      this.showFollowing = false;
+    }
+  }
+
+  setShowFollowers(): void {
+    if (this.showFollowers === false) {
+      this.showFollowers = true;
+    } else {
+      this.showFollowers = false;
+    }
+  }
+
+  findAllMessages() {
     this.profileService.findAllMessages().subscribe((messages) => {
       this.messages = messages;
     })

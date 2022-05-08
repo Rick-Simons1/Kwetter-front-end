@@ -28,11 +28,28 @@ export class ProfileService {
     return this.http.get<Message[]>("http://localhost:4000/message/");
   }
 
-  updateUserProfileData(kwetterUser : Kwetteruser){
+  updateUser(kwetterUser : Kwetteruser){
     return this.http.put("http://localhost:4000/user/", kwetterUser);
+  }
+
+  createUserProfile(kwetterUser : Kwetteruser){
+    return this.http.post<Kwetteruser>("http://localhost:4000/user/", kwetterUser);
   }
 
   findUserProfile(id: string){
     return this.http.get<Kwetteruser>("http://localhost:4000/user/" + id);
   }
+
+  findUserByHashtag(hashtag: string){
+    return this.http.get<Kwetteruser>("http://localhost:4000/user/profile/" + hashtag);
+  }
+
+  findAllFollowingById(userId: string){
+    return this.http.get<Kwetteruser[]>("http://localhost:4000/user/following/" + userId);
+  }
+
+  findAllFollowersById(userId: string){
+    return this.http.get<Kwetteruser[]>("http://localhost:4000/user/followers/" + userId);
+  }
+
 }

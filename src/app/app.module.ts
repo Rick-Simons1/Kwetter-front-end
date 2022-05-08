@@ -16,7 +16,12 @@ import {MatIconModule} from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms'  
-import { ReactiveFormsModule} from '@angular/forms' 
+import { ReactiveFormsModule} from '@angular/forms';
+import { ProfileRegisterPageComponent } from './profile-register-page/profile-register-page.component';
+import { UserPageComponent } from './user-page/user-page.component' 
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatButtonModule} from '@angular/material/button';
+import {MatListModule} from '@angular/material/list';
 
 
 
@@ -24,7 +29,9 @@ import { ReactiveFormsModule} from '@angular/forms'
   declarations: [
     AppComponent,
     LoginPageComponent,
-    ProfilePageComponent
+    ProfilePageComponent,
+    ProfileRegisterPageComponent,
+    UserPageComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +46,9 @@ import { ReactiveFormsModule} from '@angular/forms'
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
+    MatBadgeModule,
+    MatButtonModule,
+    MatListModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule

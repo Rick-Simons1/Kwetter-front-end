@@ -1,0 +1,38 @@
+<mat-grid-list cols="3" rowHeight="1:2">
+    <mat-grid-tile>
+        <div class="mat-grid-tile-content-custom">
+            <mat-card>
+                <mat-card-header>
+                    <!-- <div mat-card-avatar style="background-image: url({{user.picture}});"></div> -->
+                    <mat-card-title>{{this.user?.username}}</mat-card-title>
+                    <mat-card-subtitle>{{this.user?.hashtag}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    {{this.user?.discription}}
+                </mat-card-content>
+                <mat-card-actions>
+                    <button *ngIf="this.isfollowing === false" mat-button (click)="followUser()">follow</button>
+                    <button *ngIf="this.isfollowing === true" mat-button (click)="unFollowUser()">following</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <div class="mat-grid-tile-content-custom">
+            <mat-card *ngFor="let message of messages">
+                <mat-card-header>
+                    <mat-card-title>ricksimons</mat-card-title>
+                    <mat-card-subtitle>@ricksimons</mat-card-subtitle>
+
+                </mat-card-header>
+                <mat-card-content>
+                    {{message.messageContent}}
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <div class="mat-grid-tile-content-custom">
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>
