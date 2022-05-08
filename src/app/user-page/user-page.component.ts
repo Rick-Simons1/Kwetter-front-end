@@ -20,7 +20,6 @@ export class UserPageComponent implements OnInit {
     route.params.subscribe((params) => {
       this.profileService.findUserByHashtag(params["hashtag"]).subscribe((user) => {
         this.user = user;
-        console.log(user);
       })
     });
 
@@ -30,30 +29,25 @@ export class UserPageComponent implements OnInit {
           .subscribe((kwetterUser) => {
             this.authenticatedUser = kwetterUser;
             if (this.user) {
-              if (this.authenticatedUser.following.includes(this.user?.authId)) {
+              if (this.user.followers.includes(this.authenticatedUser.authId)) {
                 this.isfollowing = true;
               } else {
                 this.isfollowing = false;
               }
+              this.findAllMessagesByUserId(this.user.authId);
             }
           })
       })
     }
-
-
-
   }
 
   ngOnInit(): void {
-
   }
 
 
   //todo: add check to prevent following own account when navigating to user page of own account
   followUser() {
     if (this.user && this.authenticatedUser) {
-      console.log(this.user);
-      console.log(this.authenticatedUser);
       this.authenticatedUser?.following.push(this.user?.authId);
       this.user?.followers.push(this.authenticatedUser?.authId);
       this.profileService.updateUser(this.authenticatedUser).subscribe();
@@ -68,5 +62,14 @@ export class UserPageComponent implements OnInit {
       this.profileService.updateUser(this.authenticatedUser).subscribe();
       this.isfollowing = false;
     }
+  }
+
+  findAllMessagesByUserId(userId: string) {
+    this.profileService.findAllMessagesByUserId(userId).subscribe((messages) => {
+      messages.forEach((message)=>{
+        if(this.user)message.user = this.user;
+      })
+      this.messages = messages;
+    })
   }
 }

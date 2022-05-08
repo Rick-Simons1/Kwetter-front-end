@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService, User } from '@auth0/auth0-angular';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 import { Kwetteruser } from '../entities/kwetteruser';
 import { Message } from '../entities/message';
 import { ProfileService } from '../services/profile.service';
@@ -44,6 +45,8 @@ export class ProfilePageComponent implements OnInit {
         this.profileService.findAllFollowersById(user.sub.slice(6)).subscribe((followersArray) => {
           this.followers = followersArray;
         })
+        this.findAllMessagesByUserId(user.sub.slice(6));
+
       }
     })
   }
@@ -55,7 +58,6 @@ export class ProfilePageComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.findAllMessages();
   }
 
   onSubmit(): void {
@@ -71,12 +73,12 @@ export class ProfilePageComponent implements OnInit {
 
 
   postMessage(messageContent: string) {
-    if (this.kwetterUser != undefined) {
-      const message: Message = { messageContent: messageContent, user: this.kwetterUser }
-      console.log(message);
-      this.profileService.postMessage(message).subscribe((message) => {
-        console.log(message);
-        this.findAllMessages();
+    if (this.kwetterUser) {
+      const message = { messageContent: messageContent, userId: this.kwetterUser.authId }
+      this.profileService.postMessage(message).subscribe(() => {
+        setTimeout(() => {
+          if(this.kwetterUser)this.findAllMessagesByUserId(this.kwetterUser.authId); 
+        }, 100)
       });
     }
   }
@@ -105,8 +107,11 @@ export class ProfilePageComponent implements OnInit {
     }
   }
 
-  findAllMessages() {
-    this.profileService.findAllMessages().subscribe((messages) => {
+  findAllMessagesByUserId(userId: string) {
+    this.profileService.findAllMessagesByUserId(userId).subscribe((messages) => {
+      messages.forEach((message)=>{
+        if(this.kwetterUser)message.user = this.kwetterUser;
+      })
       this.messages = messages;
     })
   }

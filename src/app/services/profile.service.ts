@@ -14,19 +14,22 @@ export class ProfileService {
   constructor(private http: HttpClient) { }
 
 
-  postMessage(message: Message){
-    const JSONmessage = JSON.stringify(message);
-    console.log(JSONmessage);
+  postMessage(message: Object){
     var headers = new HttpHeaders({
       "Content-Type": "application/json",
       "Accept": "application/json"
   });
-    return this.http.post<Message>("http://localhost:4000/message/", JSONmessage, {headers});
+    return this.http.post<any>("http://localhost:4000/message/", message, {headers});
   }
 
   findAllMessages(){
     return this.http.get<Message[]>("http://localhost:4000/message/");
   }
+
+  findAllMessagesByUserId(userId: string){
+    return this.http.get<Message[]>("http://localhost:4000/message/all/" + userId);
+  }
+
 
   updateUser(kwetterUser : Kwetteruser){
     return this.http.put("http://localhost:4000/user/", kwetterUser);

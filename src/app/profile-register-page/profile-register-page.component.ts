@@ -40,7 +40,7 @@ export class ProfileRegisterPageComponent implements OnInit {
   })
 
 
-  //todo add check to see if account data is created
+  //todo: add check to see if account data is created
   onSubmit(): void {
     if (this.kwetterUser != undefined) {
       this.kwetterUser.username = this.profileForm.value.username;
