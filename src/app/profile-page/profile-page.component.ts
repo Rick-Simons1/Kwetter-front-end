@@ -71,12 +71,12 @@ export class ProfilePageComponent implements OnInit {
 
 
   postMessage(messageContent: string) {
-    if (this.kwetterUser != undefined) {
-      const message: Message = { messageContent: messageContent, user: this.kwetterUser }
-      console.log(message);
-      this.profileService.postMessage(message).subscribe((message) => {
-        console.log(message);
-        this.findAllMessages();
+    if (this.kwetterUser) {
+      const message = { messageContent: messageContent, user: this.kwetterUser}
+      this.profileService.postMessage(message).subscribe(() => {
+        setTimeout(() => {
+          if(this.kwetterUser)this.findAllMessagesByUserId(this.kwetterUser.authId); 
+        }, 300)
       });
     }
   }
@@ -105,8 +105,8 @@ export class ProfilePageComponent implements OnInit {
     }
   }
 
-  findAllMessages() {
-    this.profileService.findAllMessages().subscribe((messages) => {
+  findAllMessagesByUserId(userid: string) {
+    this.profileService.findAllMessagesByUserId(userid).subscribe((messages) => {
       this.messages = messages;
     })
   }

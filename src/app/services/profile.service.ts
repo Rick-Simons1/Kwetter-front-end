@@ -9,7 +9,8 @@ import { Message } from '../entities/message';
   providedIn: 'root'
 })
 export class ProfileService {
-  
+  url: string = "http://localhost:9080";
+
 
   constructor(private http: HttpClient) { }
 
@@ -21,35 +22,40 @@ export class ProfileService {
       "Content-Type": "application/json",
       "Accept": "application/json"
   });
-    return this.http.post<Message>("http://localhost:4000/message/", JSONmessage, {headers});
+
+    return this.http.post<any>(`${this.url}/message/`, message, {headers});
   }
 
   findAllMessages(){
-    return this.http.get<Message[]>("http://localhost:4000/message/");
+    return this.http.get<Message[]>(`${this.url}/message/`);
+  }
+
+  findAllMessagesByUserId(userId: string){
+    return this.http.get<Message[]>(`${this.url}/message/all/${userId}`);
   }
 
   updateUser(kwetterUser : Kwetteruser){
-    return this.http.put("http://localhost:4000/user/", kwetterUser);
+    return this.http.put(`${this.url}/user/`, kwetterUser);
   }
 
   createUserProfile(kwetterUser : Kwetteruser){
-    return this.http.post<Kwetteruser>("http://localhost:4000/user/", kwetterUser);
+    return this.http.post<Kwetteruser>(`${this.url}/user/`, kwetterUser);
   }
 
   findUserProfile(id: string){
-    return this.http.get<Kwetteruser>("http://localhost:4000/user/" + id);
+    return this.http.get<Kwetteruser>(`${this.url}/user/` + id);
   }
 
   findUserByHashtag(hashtag: string){
-    return this.http.get<Kwetteruser>("http://localhost:4000/user/profile/" + hashtag);
+    return this.http.get<Kwetteruser>(`${this.url}/user/profile/` + hashtag);
   }
 
   findAllFollowingById(userId: string){
-    return this.http.get<Kwetteruser[]>("http://localhost:4000/user/following/" + userId);
+    return this.http.get<Kwetteruser[]>(`${this.url}/user/following/` + userId);
   }
 
   findAllFollowersById(userId: string){
-    return this.http.get<Kwetteruser[]>("http://localhost:4000/user/followers/" + userId);
+    return this.http.get<Kwetteruser[]>(`${this.url}/user/followers/` + userId);
   }
 
 }
