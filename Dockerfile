@@ -3,7 +3,7 @@ FROM node:16-alpine as build-stage
 WORKDIR ./
 COPY package*.json ./
 RUN npm install
-COPY ./ 
+COPY ./ ./app/
 ARG configuration=production
 RUN npm run build -- --output-path=./dist/out --configuration $configuration
 
