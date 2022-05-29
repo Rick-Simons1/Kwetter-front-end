@@ -55,7 +55,7 @@ export class ProfilePageComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.findAllMessages();
+    this.findAllMessagesByUserId(this.kwetterUser!.authId);
   }
 
   onSubmit(): void {
