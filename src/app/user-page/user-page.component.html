@@ -21,8 +21,8 @@
         <div class="mat-grid-tile-content-custom">
             <mat-card *ngFor="let message of messages">
                 <mat-card-header>
-                    <mat-card-title>ricksimons</mat-card-title>
-                    <mat-card-subtitle>@ricksimons</mat-card-subtitle>
+                    <mat-card-title>{{this.message.user.username}}</mat-card-title>
+                    <mat-card-subtitle>{{this.message.user.hashtag}}</mat-card-subtitle>
 
                 </mat-card-header>
                 <mat-card-content>
