@@ -13,7 +13,7 @@ env:
   NAMESPACE: 'default'
   SECRET: 'githubdeploymentsecret'
   APP_NAME: 'frontend'
-  APP_VERSION: 'v0.1.6'
+  APP_VERSION: 'v0.1.7'
 
 jobs:
   build:

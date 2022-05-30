@@ -9,7 +9,7 @@ export const environment = {
   auth: {
     domain: auth0Env.domain,
     clientId: auth0Env.clientId,
-    redirectUri: "http://localhost/login",
+    redirectUri: "http://localhost:4200/login",
   },
 };
 
