@@ -9,7 +9,7 @@ import { Message } from '../entities/message';
   providedIn: 'root'
 })
 export class ProfileService {
-  url: string = "http://localhost:9080";
+  url: string = "http://gateway-service:80";
 
 
   constructor(private http: HttpClient) { }
