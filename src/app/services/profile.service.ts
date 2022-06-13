@@ -9,7 +9,7 @@ import { Message } from '../entities/message';
   providedIn: 'root'
 })
 export class ProfileService {
-  url: string = "http://20.105.24.28";
+  url: string = "https://52.155.234.210";
 
 
   constructor(private http: HttpClient) { }
