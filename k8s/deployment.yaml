@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: kwetters6.azurecr.io/frontend:v0.1.4
+        image: kwetters6.azurecr.io/frontend:v0.1.8
         resources:
           limits:
             memory: 500Mi
