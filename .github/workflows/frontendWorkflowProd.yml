@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ Master ]
+    branches: [ Production ]
   pull_request:
-    branches: [ Master ]
+    branches: [ Production ]
     
 env:
   REGISTRY_NAME: 'kwetters6'
