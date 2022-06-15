@@ -81,6 +81,21 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GENTLE_STONE_0110FA403 }}
           action: "close"
+  zap_scan:
+    runs-on: ubuntu-latest
+    name: Scan the webapplication
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: ZAP Scan
+        uses: zaproxy/action-full-scan@v0.4.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target: 'https://gentle-stone-0110fa403.1.azurestaticapps.net/'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
 #   azure-deployment:
 #     needs: [build]
 #     name: Azure deployment
