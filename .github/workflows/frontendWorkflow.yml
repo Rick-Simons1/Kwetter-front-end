@@ -48,49 +48,99 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #         todo: add to secrets vault in github
         SONAR_TOKEN: 3f4e3bd05a233f7f2002079a770e94e89262edf2
-  azure-deployment:
+  build_and_deploy_job:
     needs: [build]
-    name: Azure deployment
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
+    name: Build and Deploy Job
     steps:
-    - uses: actions/checkout@main
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Build And Deploy
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_PEBBLE_0272E8B03 }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          action: "upload"
+          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
+          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
+          app_location: "/" # App source code path
+          api_location: "" # Api source code path - optional
+          output_location: "dist/kwetter-front-end" # Built app content directory - optional
+          ###### End of Repository/Build Configurations ######
+
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+    steps:
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_PEBBLE_0272E8B03 }}
+          action: "close"
+  zap_scan:
+    runs-on: ubuntu-latest
+    name: Scan the webapplication
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: ZAP Scan
+        uses: zaproxy/action-full-scan@v0.4.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target: 'https://ashy-pebble-0272e8b03.1.azurestaticapps.net/'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+#   azure-deployment:
+#     needs: [build]
+#     name: Azure deployment
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@main
     
-    # Connect to Azure Container Registry (ACR)
-    - uses: azure/docker-login@v1
-      with:
-        login-server: ${{ env.REGISTRY_NAME }}.azurecr.io
-        username: ${{ secrets.REGISTRY_USERNAME }} 
-        password: ${{ secrets.REGISTRY_PASSWORD }}
+#     # Connect to Azure Container Registry (ACR)
+#     - uses: azure/docker-login@v1
+#       with:
+#         login-server: ${{ env.REGISTRY_NAME }}.azurecr.io
+#         username: ${{ secrets.REGISTRY_USERNAME }} 
+#         password: ${{ secrets.REGISTRY_PASSWORD }}
     
-    # Container build and push to a Azure Container Registry (ACR)
-    - run: |
-        docker build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ env.APP_VERSION }}
-        docker push ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ env.APP_VERSION }}
-      working-directory: ./
+#     # Container build and push to a Azure Container Registry (ACR)
+#     - run: |
+#         docker build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ env.APP_VERSION }}
+#         docker push ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ env.APP_VERSION }}
+#       working-directory: ./
       
-    # Set the target Azure Kubernetes Service (AKS) cluster. 
-    - uses: azure/aks-set-context@v1
-      with:
-        creds: '${{ secrets.AZURE_CREDENTIALS }}'
-        cluster-name: ${{ env.CLUSTER_NAME }}
-        resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
+#     # Set the target Azure Kubernetes Service (AKS) cluster. 
+#     - uses: azure/aks-set-context@v1
+#       with:
+#         creds: '${{ secrets.AZURE_CREDENTIALS }}'
+#         cluster-name: ${{ env.CLUSTER_NAME }}
+#         resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
         
-    # Create image pull secret for ACR
-    - uses: azure/k8s-create-secret@v1
-      with:
-        container-registry-url: ${{ env.REGISTRY_NAME }}.azurecr.io
-        container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
-        container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-        secret-name: ${{ env.SECRET }}
-        namespace: ${{ env.NAMESPACE }}
-        arguments: --force true
-    # Deploy app to AKS
-    - uses: azure/k8s-deploy@v1
-      with:
-        manifests: |
-          ${{ github.workspace }}/k8s/deployment.yaml
-        images: |
-          ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ env.APP_VERSION }}
-        imagepullsecrets: |
-          ${{ env.SECRET }}
-        namespace: ${{ env.NAMESPACE }}
+#     # Create image pull secret for ACR
+#     - uses: azure/k8s-create-secret@v1
+#       with:
+#         container-registry-url: ${{ env.REGISTRY_NAME }}.azurecr.io
+#         container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
+#         container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+#         secret-name: ${{ env.SECRET }}
+#         namespace: ${{ env.NAMESPACE }}
+#         arguments: --force true
+#     # Deploy app to AKS
+#     - uses: azure/k8s-deploy@v1
+#       with:
+#         manifests: |
+#           ${{ github.workspace }}/k8s/deployment.yaml
+#         images: |
+#           ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ env.APP_VERSION }}
+#         imagepullsecrets: |
+#           ${{ env.SECRET }}
+#         namespace: ${{ env.NAMESPACE }}
+    
