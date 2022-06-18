@@ -11,6 +11,7 @@ export class AppComponent {
   title = 'Kwetter-front-end';
 
   constructor(public auth: AuthService, private router : Router) {
+    
   }
 
   loginWithRedirect(): void {
