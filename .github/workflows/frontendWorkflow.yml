@@ -49,7 +49,7 @@ jobs:
 #         todo: add to secrets vault in github
         SONAR_TOKEN: 3f4e3bd05a233f7f2002079a770e94e89262edf2
   static_web_app_deploy_job:
-    needs: [build]
+    needs: [build_and_test]
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
