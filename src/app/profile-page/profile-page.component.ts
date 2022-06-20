@@ -65,7 +65,7 @@ export class ProfilePageComponent implements OnInit {
     if (this.kwetterUser != undefined) {
       this.kwetterUser.username = this.profileForm.value.username;
       this.kwetterUser.hashtag = this.profileForm.value.hashtag;
-      this.kwetterUser.discription = this.profileForm.value.discription;
+      this.kwetterUser.description = this.profileForm.value.discription;
       this.profileService.updateUser(this.kwetterUser).subscribe();
     }
 

@@ -15,7 +15,7 @@ export class ProfileRegisterPageComponent implements OnInit {
     id: 0,
     username: '',
     hashtag: '',
-    discription: '',
+    description: '',
     authId: '',
     role: '',
     following: [],
@@ -36,7 +36,7 @@ export class ProfileRegisterPageComponent implements OnInit {
   profileForm = this.formbuilder.group({
     username: '',
     hashtag: '',
-    discription: ''
+    description: ''
   })
 
 
@@ -45,7 +45,7 @@ export class ProfileRegisterPageComponent implements OnInit {
     if (this.kwetterUser != undefined) {
       this.kwetterUser.username = this.profileForm.value.username;
       this.kwetterUser.hashtag = this.profileForm.value.hashtag;
-      this.kwetterUser.discription = this.profileForm.value.discription;
+      this.kwetterUser.description = this.profileForm.value.description;
       this.profileService.createUserProfile(this.kwetterUser).subscribe(()=>{
         this.router.navigateByUrl('/profile');
       });
