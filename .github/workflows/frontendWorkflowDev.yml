@@ -34,7 +34,7 @@ jobs:
         cache-dependency-path: './package-lock.json'
     - run: npm ci
     - run: npm run build --if-present
-#     - run: npm test
+    - run: protractor conf.js
   sonarcloud:
     runs-on: ubuntu-latest
     steps:
@@ -52,7 +52,7 @@ jobs:
     needs: [build_and_test]
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
-    name: Build and Deploy Job
+    name: Static Web App Deploy Job
     steps:
       - uses: actions/checkout@v2
         with:
