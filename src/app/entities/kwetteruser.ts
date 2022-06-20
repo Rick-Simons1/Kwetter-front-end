@@ -2,7 +2,7 @@ export interface Kwetteruser {
     id: number
     username: string;
     hashtag: string;
-    discription: string;
+    description: string;
     authId: string;
     role: string;
     following: string[];
