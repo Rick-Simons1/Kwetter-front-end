@@ -42,9 +42,9 @@ jobs:
       with:
         chromedriver-version: '88.0.4324.96'
     - run: |
-      export DISPLAY=:99
-      chromedriver --url-base=/wd/hub &
-      sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
+        export DISPLAY=:99
+        chromedriver --url-base=/wd/hub &
+        sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
     - run: protractor conf.js
 
   sonarcloud:
