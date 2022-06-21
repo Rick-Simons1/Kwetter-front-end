@@ -9,7 +9,7 @@ export const environment = {
   auth: {
     domain: auth0Env.domain,
     clientId: auth0Env.clientId,
-    redirectUri: "http://localhost:4200/login",
+    redirectUri: "https://ashy-pebble-0272e8b03.1.azurestaticapps.net/login",
   },
 };
 

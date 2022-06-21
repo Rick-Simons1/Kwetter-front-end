@@ -8,7 +8,7 @@
                     <mat-card-subtitle>{{this.user?.hashtag}}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                    {{this.user?.discription}}
+                    {{this.user?.description}}
                 </mat-card-content>
                 <mat-card-actions>
                     <button *ngIf="this.isfollowing === false" mat-button (click)="followUser()">follow</button>
@@ -21,8 +21,8 @@
         <div class="mat-grid-tile-content-custom">
             <mat-card *ngFor="let message of messages">
                 <mat-card-header>
-                    <mat-card-title>{{this.message.user.username}}</mat-card-title>
-                    <mat-card-subtitle>{{this.message.user.hashtag}}</mat-card-subtitle>
+                    <mat-card-title>{{this.message.userName}}</mat-card-title>
+                    <mat-card-subtitle>{{this.message.userHashtag}}</mat-card-subtitle>
 
                 </mat-card-header>
                 <mat-card-content>

@@ -29,7 +29,10 @@ export class ProfilePageComponent implements OnInit {
       if (user?.sub != undefined) {
         this.profileService.findUserProfile(user.sub.slice(6))
           .subscribe({
-            next: (kwetteruser) => { this.kwetterUser = kwetteruser; },
+            next: (kwetteruser) => { 
+              this.kwetterUser = kwetteruser;
+              this.findAllMessagesByUserId(this.kwetterUser!.authId);
+            },
             error: (error) => {
               //todo: change error code to proper error code after adding error handling in the back-end
               if (error.error.statusCode === 500) {
@@ -55,14 +58,14 @@ export class ProfilePageComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.findAllMessagesByUserId(this.kwetterUser!.authId);
+
   }
 
   onSubmit(): void {
     if (this.kwetterUser != undefined) {
       this.kwetterUser.username = this.profileForm.value.username;
       this.kwetterUser.hashtag = this.profileForm.value.hashtag;
-      this.kwetterUser.discription = this.profileForm.value.discription;
+      this.kwetterUser.description = this.profileForm.value.discription;
       this.profileService.updateUser(this.kwetterUser).subscribe();
     }
 
@@ -72,7 +75,7 @@ export class ProfilePageComponent implements OnInit {
 
   postMessage(messageContent: string) {
     if (this.kwetterUser) {
-      const message = { messageContent: messageContent, user: this.kwetterUser}
+      const message: Message = { messageContent: messageContent, userId: this.kwetterUser.authId, userName: this.kwetterUser.username, userHashtag: this.kwetterUser.hashtag}
       this.profileService.postMessage(message).subscribe(() => {
         setTimeout(() => {
           if(this.kwetterUser)this.findAllMessagesByUserId(this.kwetterUser.authId); 

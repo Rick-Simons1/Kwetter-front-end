@@ -8,7 +8,7 @@
                     <mat-card-subtitle>{{this.kwetterUser?.hashtag}}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                    {{this.kwetterUser?.discription}}
+                    {{this.kwetterUser?.description}}
                 </mat-card-content>
                 <mat-card-actions>
                     <button mat-raised-button color="primary" matBadge="{{this.kwetterUser?.following?.length}}" matBadgePosition="before"
@@ -70,8 +70,8 @@
         <div class="mat-grid-tile-content-custom">
             <mat-card *ngFor="let message of messages">
                 <mat-card-header>
-                    <mat-card-title>ricksimons</mat-card-title>
-                    <mat-card-subtitle>@ricksimons</mat-card-subtitle>
+                    <mat-card-title>{{message.userName}}</mat-card-title>
+                    <mat-card-subtitle>{{message.userHashtag}}</mat-card-subtitle>
 
                 </mat-card-header>
                 <mat-card-content>
